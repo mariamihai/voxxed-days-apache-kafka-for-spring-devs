@@ -18,8 +18,15 @@ public class ReaderApplication {
 	}
 
 	// Simple Kafka Consumer
-	@KafkaListener(topics = PAGE_VIEW_TOPIC)
-	public void processPageView(ConsumerRecord<String, PageView> record) {
-		log.info(String.valueOf(record));
+//	@KafkaListener(topics = PAGE_VIEW_TOPIC)
+//	public void processPageView(ConsumerRecord<String, PageView> record) {
+//		log.info(String.valueOf(record));
+//	}
+
+	// Concurrent Kafka Consumer
+	@KafkaListener(topics = PAGE_VIEW_TOPIC, concurrency = "2")
+	public void processPageViewConcurrently(ConsumerRecord<String, PageView> record) {
+		long threadId = Thread.currentThread().getId();
+		log.info(threadId + ": " + record);
 	}
 }
